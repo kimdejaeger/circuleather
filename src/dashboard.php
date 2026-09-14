@@ -42,7 +42,7 @@ if (!isset($_SESSION['loggedin'])) {
 
     while ($row = $result->fetch_assoc()) {
       echo "<tr>";
-      echo "<td> <a href='update.php?id=" . $row['id'] . "'>" . $row['id'] . "</a></td>";
+      echo "<td>" . $row['id'] . "</td>";
       echo "<td id='gewicht'>" . $row['gewicht'] . "</td>";
       echo "<td id='kleur'>" . $row['kleur'] . "</td>";
       echo "<td id='dikte'>" . $row['dikte'] . "</td>";
