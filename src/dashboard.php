@@ -6,6 +6,8 @@ if (!isset($_SESSION['loggedin'])) {
     exit();
 }
 
+$search = $_GET['search'] ?? '';
+
 ?>
 
 
@@ -19,9 +21,24 @@ if (!isset($_SESSION['loggedin'])) {
 
 </head>
 <body>
+
+    <!-- Search -->
+    <form method="GET" action="">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Zoek product..."
+            value="<?= htmlspecialchars($search) ?>"
+        >
+        <button type="submit">Zoeken</button>
+    </form>
+
+    <br>
+
     <table>
     <tr>
       <th>Id</th>
+      <th>Naam</th>
       <th>Gewicht</th>
       <th>Kleur</th>
       <th>Dikte</th>
@@ -30,35 +47,68 @@ if (!isset($_SESSION['loggedin'])) {
       <th>Prijs</th>
       <th>Voorraad</th>
     </tr>
+
 <?php
 
     $conn = require_once "partials/dbconnection-kim.php";
 
-    $stmt = $conn->prepare("SELECT * FROM product");
+    // Search op naam
+    if ($search !== '') {
+
+        $searchTerm = "%" . $search . "%";
+
+        $stmt = $conn->prepare("
+            SELECT * FROM product
+            WHERE naam LIKE ?
+        ");
+
+        $stmt->bind_param("s", $searchTerm);
+
+    } else {
+
+        $stmt = $conn->prepare("SELECT * FROM product");
+
+    }
+
     $stmt->execute();
     $result = $stmt->get_result();
-    if ($result->num_rows === 0)
-      exit('No rows');
 
-    while ($row = $result->fetch_assoc()) {
-      echo "<tr>";
-      echo "<td>" . $row['id'] . "</td>";
-      echo "<td id='gewicht'>" . $row['gewicht'] . "</td>";
-      echo "<td id='kleur'>" . $row['kleur'] . "</td>";
-      echo "<td id='dikte'>" . $row['dikte'] . "</td>";
-      echo "<td id='soort'>" . $row['soort'] . "</td>";
-      echo "<td id='gelooid'>" . $row['gelooid'] . "</td>";
-      echo "<td id='prijs'>" . $row['prijs'] . "</td>";
-      echo "<td id='voorraad'>" . $row['voorraad'] . "</td>";
-      // echo "<td id='verwijder'>" . "<a href='delete.php?id=" . $row['id'] . "'>Verwijder</a>" . "</td>";
-      echo "</tr>";
+    if ($result->num_rows === 0) {
+
+        echo "<tr>";
+        echo "<td colspan='9'>Geen producten gevonden.</td>";
+        echo "</tr>";
+
+    } else {
+
+        while ($row = $result->fetch_assoc()) {
+
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['naam'] . "</td>";
+            echo "<td id='gewicht'>" . $row['gewicht'] . "</td>";
+            echo "<td id='kleur'>" . $row['kleur'] . "</td>";
+            echo "<td id='dikte'>" . $row['dikte'] . "</td>";
+            echo "<td id='soort'>" . $row['soort'] . "</td>";
+            echo "<td id='gelooid'>" . $row['gelooid'] . "</td>";
+            echo "<td id='prijs'>" . $row['prijs'] . "</td>";
+            echo "<td id='voorraad'>" . $row['voorraad'] . "</td>";
+            echo "</tr>";
+
+        }
+
     }
+
     echo "</table>";
 
     $stmt->close();
-    ?>
-     <!-- <a href="logout.php" class="btn">Log out</a> -->
-     <button onclick="window.location.href='logout.php'; return false;">Logout</button>
+    $conn->close();
+
+?>
+
+     <button onclick="window.location.href='logout.php'; return false;">
+        Logout
+     </button>
 
 </body>
 </html>
