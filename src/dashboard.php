@@ -1,114 +1,140 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['loggedin'])) {
-    header("Location: login.html");
-    exit();
-}
+require_once 'session.php';
 
 $search = $_GET['search'] ?? '';
+$kleur = $_GET['kleur'] ?? '';
+$gelooid = $_GET['gelooid'] ?? '';
 
+$conn = require_once "partials/dbconnection-kim.php";
+
+// Kleuren ophalen
+$result_kleuren = $conn->query(
+    "SELECT DISTINCT kleur FROM product ORDER BY kleur"
+);
+
+// Producten ophalen
+$sql = "SELECT * FROM product WHERE 1=1";
+$params = [];
+$types = "";
+
+if ($search !== '') {
+    $sql .= " AND naam LIKE ?";
+    $params[] = "%$search%";
+    $types .= "s";
+}
+
+if ($kleur !== '') {
+    $sql .= " AND kleur = ?";
+    $params[] = $kleur;
+    $types .= "s";
+}
+
+if ($gelooid !== '') {
+    $sql .= " AND gelooid = ?";
+    $params[] = $gelooid;
+    $types .= "s";
+}
+
+$stmt = $conn->prepare($sql);
+
+if ($params) {
+    $stmt->bind_param($types, ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="css/style-kim.css">
-
 </head>
 <body>
 
-    <!-- Search -->
-    <form method="GET" action="">
-        <input 
-            type="text" 
-            name="search" 
-            placeholder="Zoek product..."
-            value="<?= htmlspecialchars($search) ?>"
-        >
-        <button type="submit">Zoeken</button>
-    </form>
+<form method="GET">
+    <input
+        type="text"
+        name="search"
+        placeholder="Zoek product..."
+        value="<?= htmlspecialchars($search) ?>"
+    >
 
-    <br>
+    <select name="kleur">
+        <option value="">Alle kleuren</option>
 
-    <table>
+        <?php while ($row = $result_kleuren->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($row['kleur']) ?>"
+                <?= $kleur === $row['kleur'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($row['kleur']) ?>
+            </option>
+        <?php endwhile; ?>
+    </select>
+
+    <select name="gelooid">
+        <option value="">Alle</option>
+        <option value="natuurlijk" <?= $gelooid === 'natuurlijk' ? 'selected' : '' ?>>
+            Natuurlijk
+        </option>
+        <option value="chemisch" <?= $gelooid === 'chemisch' ? 'selected' : '' ?>>
+            Chemisch
+        </option>
+    </select>
+
+    <button type="submit">Filteren</button>
+</form>
+
+<br>
+
+<table>
     <tr>
-      <th>Id</th>
-      <th>Naam</th>
-      <th>Gewicht</th>
-      <th>Kleur</th>
-      <th>Dikte</th>
-      <th>Soort</th>
-      <th>Gelooid</th>
-      <th>Prijs</th>
-      <th>Voorraad</th>
+        <th>Id</th>
+        <th>Naam</th>
+        <th>Gewicht</th>
+        <th>Kleur</th>
+        <th>Dikte</th>
+        <th>Soort</th>
+        <th>Gelooid</th>
+        <th>Prijs</th>
+        <th>Voorraad</th>
     </tr>
 
-<?php
+    <?php if ($result->num_rows === 0): ?>
+        <tr>
+            <td colspan="9">Geen producten gevonden.</td>
+        </tr>
+    <?php else: ?>
 
-    $conn = require_once "partials/dbconnection-kim.php";
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['id']) ?></td>
+                <td><?= htmlspecialchars($row['naam']) ?></td>
+                <td><?= htmlspecialchars($row['gewicht']) ?></td>
+                <td><?= htmlspecialchars($row['kleur']) ?></td>
+                <td><?= htmlspecialchars($row['dikte']) ?></td>
+                <td><?= htmlspecialchars($row['soort']) ?></td>
+                <td><?= htmlspecialchars($row['gelooid']) ?></td>
+                <td><?= htmlspecialchars($row['prijs']) ?></td>
+                <td><?= htmlspecialchars($row['voorraad']) ?></td>
+            </tr>
+        <?php endwhile; ?>
 
-    // Search op naam
-    if ($search !== '') {
+    <?php endif; ?>
+</table>
 
-        $searchTerm = "%" . $search . "%";
+<br>
 
-        $stmt = $conn->prepare("
-            SELECT * FROM product
-            WHERE naam LIKE ?
-        ");
-
-        $stmt->bind_param("s", $searchTerm);
-
-    } else {
-
-        $stmt = $conn->prepare("SELECT * FROM product");
-
-    }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-
-        echo "<tr>";
-        echo "<td colspan='9'>Geen producten gevonden.</td>";
-        echo "</tr>";
-
-    } else {
-
-        while ($row = $result->fetch_assoc()) {
-
-            echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . $row['naam'] . "</td>";
-            echo "<td id='gewicht'>" . $row['gewicht'] . "</td>";
-            echo "<td id='kleur'>" . $row['kleur'] . "</td>";
-            echo "<td id='dikte'>" . $row['dikte'] . "</td>";
-            echo "<td id='soort'>" . $row['soort'] . "</td>";
-            echo "<td id='gelooid'>" . $row['gelooid'] . "</td>";
-            echo "<td id='prijs'>" . $row['prijs'] . "</td>";
-            echo "<td id='voorraad'>" . $row['voorraad'] . "</td>";
-            echo "</tr>";
-
-        }
-
-    }
-
-    echo "</table>";
-
-    $stmt->close();
-    $conn->close();
-
-?>
-
-     <button onclick="window.location.href='logout.php'; return false;">
-        Logout
-     </button>
+<button onclick="location.href='logout.php'">
+    Logout
+</button>
 
 </body>
 </html>
+
+<?php
+$stmt->close();
+$conn->close();
+?>

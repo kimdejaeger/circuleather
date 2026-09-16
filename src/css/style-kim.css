@@ -12,6 +12,11 @@ td {
 th {
   border: 1px solid #ddd;
   padding: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
 }
 
 tr:nth-child(even) {
@@ -22,16 +27,8 @@ tr:hover {
   background-color: #ddd;
 }
 
-th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04aa6d;
-  color: white;
-}
-
 /* ==========================
-   Update User formulier
+   Algemene stijl
    ========================== */
 
 body {
@@ -41,26 +38,65 @@ body {
 }
 
 h1 {
-  font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 20px;
   color: #333;
 }
 
-form {
+/* ==========================
+   Search + filters
+   ========================== */
+
+.dashboard-top {
+  display: flex;
+  align-items: center;
+  gap: 30px;
   background-color: white;
-  padding: 25px;
+  padding: 20px;
   border-radius: 8px;
-  max-width: 500px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
 }
 
-form td:first-child {
-  width: 140px;
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
 }
+
+.filter-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.search-box input {
+  width: 300px;
+}
+
+.filter-box select,
+.filter-box input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.dikte {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dikte input {
+  width: 70px;
+}
+
+/* ==========================
+   Inputs
+   ========================== */
 
 input {
-  width: 100%;
-  max-width: 300px;
   box-sizing: border-box;
 }
 
@@ -68,7 +104,6 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="date"] {
-  width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -78,6 +113,10 @@ input:focus {
   outline: none;
   border-color: #04aa6d;
 }
+
+/* ==========================
+   Buttons
+   ========================== */
 
 button {
   padding: 10px 20px;
@@ -104,6 +143,10 @@ button:last-of-type {
 button:last-of-type:hover {
   background-color: #cfcfcf;
 }
+
+/* ==========================
+   Algemene knoppen
+   ========================== */
 
 .btn {
   background-color: #04aa6d;
