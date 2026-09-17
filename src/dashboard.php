@@ -4,12 +4,18 @@ require_once 'session.php';
 $search = $_GET['search'] ?? '';
 $kleur = $_GET['kleur'] ?? '';
 $gelooid = $_GET['gelooid'] ?? '';
+$soort = $_GET['soort'] ?? '';
 
 $conn = require_once "partials/dbconnection-kim.php";
 
 // Kleuren ophalen
 $result_kleuren = $conn->query(
     "SELECT DISTINCT kleur FROM product ORDER BY kleur"
+);
+
+// Soorten ophalen
+$result_soorten = $conn->query(
+    "SELECT DISTINCT soort FROM product ORDER BY soort"
 );
 
 // Producten ophalen
@@ -35,6 +41,12 @@ if ($gelooid !== '') {
     $types .= "s";
 }
 
+if ($soort !== '') {
+    $sql .= " AND soort = ?";
+    $params[] = $soort;
+    $types .= "s";
+}
+
 $stmt = $conn->prepare($sql);
 
 if ($params) {
@@ -51,8 +63,8 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style-kim.css">
-</head>
+    <link rel="stylesheet" href="css/style_kim.css">
+</head> 
 <body>
 
 <form method="GET">
@@ -61,30 +73,49 @@ $result = $stmt->get_result();
         name="search"
         placeholder="Zoek product..."
         value="<?= htmlspecialchars($search) ?>"
-    >
-
-    <select name="kleur">
-        <option value="">Alle kleuren</option>
-
-        <?php while ($row = $result_kleuren->fetch_assoc()): ?>
-            <option value="<?= htmlspecialchars($row['kleur']) ?>"
+        >
+        <button type="submit">Zoeken</button>
+        <div>
+        <select name="kleur">
+            <option value="">Alle kleuren</option>
+            
+            <?php while ($row = $result_kleuren->fetch_assoc()): ?>
+                <option value="<?= htmlspecialchars($row['kleur']) ?>"
                 <?= $kleur === $row['kleur'] ? 'selected' : '' ?>>
                 <?= htmlspecialchars($row['kleur']) ?>
             </option>
-        <?php endwhile; ?>
-    </select>
-
-    <select name="gelooid">
-        <option value="">Alle</option>
-        <option value="natuurlijk" <?= $gelooid === 'natuurlijk' ? 'selected' : '' ?>>
-            Natuurlijk
-        </option>
-        <option value="chemisch" <?= $gelooid === 'chemisch' ? 'selected' : '' ?>>
-            Chemisch
-        </option>
-    </select>
-
-    <button type="submit">Filteren</button>
+            <?php endwhile; ?>
+        </select>
+        
+        <select name="gelooid">
+            <option value="">Alle</option>
+            <option value="natuurlijk" <?= $gelooid === 'natuurlijk' ? 'selected' : '' ?>>
+                Natuurlijk
+            </option>
+            <option value="chemisch" <?= $gelooid === 'chemisch' ? 'selected' : '' ?>>
+                Chemisch
+            </option>
+        </select>
+        
+        <select name="soort" >
+            <option value="">Alle soort</option>
+            
+            <?php while ($row = $result_soorten->fetch_assoc()): ?>
+                <option value="<?= htmlspecialchars($row['soort']) ?>"
+                <?= $soort === $row['soort'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($row['soort']) ?>
+            </option>
+            <?php endwhile; ?>
+        </select>
+        
+        <button type="submit">Filteren</button>
+        <button type="button" onclick="location.href='dashboard.php'">reset</button>
+        </div>
+        
+        <div>
+        <button type="button" onclick="location.href='bestellen.php'">bestellen</button>
+        <button type="button" onclick="location.href='product_toevoegen.php'">Product toevoegen</button>
+        </div>
 </form>
 
 <br>
