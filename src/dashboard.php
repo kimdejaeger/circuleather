@@ -63,104 +63,136 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style_kim.css">
+    <link rel="stylesheet" href="css/style-nieuw.css">
 </head> 
 <body>
 
-<form method="GET">
-    <input
-        type="text"
-        name="search"
-        placeholder="Zoek product..."
-        value="<?= htmlspecialchars($search) ?>"
+<div class="top-bar">
+
+    <form method="GET">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Zoek product..."
+            value="<?= htmlspecialchars($search) ?>"
         >
         <button type="submit">Zoeken</button>
-        <div>
-        <select name="kleur">
-            <option value="">Alle kleuren</option>
-            
-            <?php while ($row = $result_kleuren->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($row['kleur']) ?>"
-                <?= $kleur === $row['kleur'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($row['kleur']) ?>
-            </option>
-            <?php endwhile; ?>
-        </select>
-        
-        <select name="gelooid">
-            <option value="">Alle</option>
-            <option value="natuurlijk" <?= $gelooid === 'natuurlijk' ? 'selected' : '' ?>>
-                Natuurlijk
-            </option>
-            <option value="chemisch" <?= $gelooid === 'chemisch' ? 'selected' : '' ?>>
-                Chemisch
-            </option>
-        </select>
-        
-        <select name="soort" >
-            <option value="">Alle soort</option>
-            
-            <?php while ($row = $result_soorten->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($row['soort']) ?>"
-                <?= $soort === $row['soort'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($row['soort']) ?>
-            </option>
-            <?php endwhile; ?>
-        </select>
-        
-        <button type="submit">Filteren</button>
-        <button type="button" onclick="location.href='dashboard.php'">reset</button>
-        </div>
-        
-        <div>
-        <button type="button" onclick="location.href='bestellen.php'">bestellen</button>
-        <button type="button" onclick="location.href='product_toevoegen.php'">Product toevoegen</button>
-        </div>
-</form>
+    </form>
+
+    <div class="buttons">
+        <button type="button" onclick="location.href='bestellen.php'">
+            Bestellen
+        </button>
+
+        <button type="button" onclick="location.href='product_toevoegen.php'">
+            Product toevoegen
+        </button>
+
+        <button type="button" onclick="location.href='logout.php'">
+            Logout
+        </button>
+    </div>
+
+</div>
 
 <br>
 
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Naam</th>
-        <th>Gewicht</th>
-        <th>Kleur</th>
-        <th>Dikte</th>
-        <th>Soort</th>
-        <th>Gelooid</th>
-        <th>Prijs</th>
-        <th>Voorraad</th>
-    </tr>
+<div class="dashboard">
 
-    <?php if ($result->num_rows === 0): ?>
-        <tr>
-            <td colspan="9">Geen producten gevonden.</td>
-        </tr>
-    <?php else: ?>
-
-        <?php while ($row = $result->fetch_assoc()): ?>
+    <div class="voorraad">
+        <table>
             <tr>
-                <td><?= htmlspecialchars($row['id']) ?></td>
-                <td><?= htmlspecialchars($row['naam']) ?></td>
-                <td><?= htmlspecialchars($row['gewicht']) ?></td>
-                <td><?= htmlspecialchars($row['kleur']) ?></td>
-                <td><?= htmlspecialchars($row['dikte']) ?></td>
-                <td><?= htmlspecialchars($row['soort']) ?></td>
-                <td><?= htmlspecialchars($row['gelooid']) ?></td>
-                <td><?= htmlspecialchars($row['prijs']) ?></td>
-                <td><?= htmlspecialchars($row['voorraad']) ?></td>
+                <th>Id</th>
+                <th>Naam</th>
+                <th>Gewicht</th>
+                <th>Kleur</th>
+                <th>Dikte</th>
+                <th>Soort</th>
+                <th>Gelooid</th>
+                <th>Prijs</th>
+                <th>Voorraad</th>
             </tr>
-        <?php endwhile; ?>
 
-    <?php endif; ?>
-</table>
+            <?php if ($result->num_rows === 0): ?>
 
-<br>
+                <tr>
+                    <td colspan="9">Geen producten gevonden.</td>
+                </tr>
 
-<button onclick="location.href='logout.php'">
-    Logout
-</button>
+            <?php else: ?>
+
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['id']) ?></td>
+                        <td><?= htmlspecialchars($row['naam']) ?></td>
+                        <td><?= htmlspecialchars($row['gewicht']) ?></td>
+                        <td><?= htmlspecialchars($row['kleur']) ?></td>
+                        <td><?= htmlspecialchars($row['dikte']) ?></td>
+                        <td><?= htmlspecialchars($row['soort']) ?></td>
+                        <td><?= htmlspecialchars($row['gelooid']) ?></td>
+                        <td><?= htmlspecialchars($row['prijs']) ?></td>
+                        <td><?= htmlspecialchars($row['voorraad']) ?></td>
+                    </tr>
+                <?php endwhile; ?>
+
+            <?php endif; ?>
+        </table>
+    </div>
+
+    <div class="sidebar">
+
+        <div class="voorraad-box">
+            <h2>Voorraad</h2>
+            <p>🟢 Op voorraad</p>
+            <p>🔴 Niet op voorraad</p>
+        </div>
+
+        <form method="GET">
+
+            <select name="kleur">
+                <option value="">Alle kleuren</option>
+
+                <?php while ($row = $result_kleuren->fetch_assoc()): ?>
+                    <option value="<?= htmlspecialchars($row['kleur']) ?>"
+                        <?= $kleur === $row['kleur'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($row['kleur']) ?>
+                    </option>
+                <?php endwhile; ?>
+            </select>
+
+            <select name="gelooid">
+                <option value="">Gelooid</option>
+
+                <option value="natuurlijk" <?= $gelooid === 'natuurlijk' ? 'selected' : '' ?>>
+                    Natuurlijk
+                </option>
+
+                <option value="chemisch" <?= $gelooid === 'chemisch' ? 'selected' : '' ?>>
+                    Chemisch
+                </option>
+            </select>
+
+            <select name="soort">
+                <option value="">Alle soorten</option>
+
+                <?php while ($row = $result_soorten->fetch_assoc()): ?>
+                    <option value="<?= htmlspecialchars($row['soort']) ?>"
+                        <?= $soort === $row['soort'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($row['soort']) ?>
+                    </option>
+                <?php endwhile; ?>
+            </select>
+
+            <button type="submit">Filteren</button>
+            <button type="button" onclick="location.href='dashboard.php'">
+                Reset
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>
