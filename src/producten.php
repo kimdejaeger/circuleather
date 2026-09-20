@@ -14,12 +14,13 @@
                 <th>Gelooid</th>
                 <th>Prijs</th>
                 <th>Voorraad</th>
+                <th>Actie</th>
             </tr>
 
             <?php if ($result->num_rows === 0): ?>
 
                 <tr>
-                    <td colspan="9">Geen producten gevonden.</td>
+                    <td colspan="10">Geen producten gevonden.</td>
                 </tr>
 
             <?php else: ?>
@@ -27,6 +28,7 @@
                 <?php while ($row = $result->fetch_assoc()): ?>
 
                     <tr>
+
                         <td><?= htmlspecialchars($row['id']) ?></td>
                         <td><?= htmlspecialchars($row['naam']) ?></td>
                         <td><?= htmlspecialchars($row['gewicht']) ?></td>
@@ -34,8 +36,36 @@
                         <td><?= htmlspecialchars($row['dikte']) ?></td>
                         <td><?= htmlspecialchars($row['soort']) ?></td>
                         <td><?= htmlspecialchars($row['gelooid']) ?></td>
-                        <td><?= htmlspecialchars($row['prijs']) ?></td>
+                        <td>€<?= htmlspecialchars($row['prijs']) ?></td>
                         <td><?= htmlspecialchars($row['voorraad']) ?></td>
+                        <td>
+
+                            <?php if ($row['voorraad'] > 0): ?>
+
+                                <button
+                                    type="button"
+                                    class="bestel-knop"
+                                    data-id="<?= (int)$row['id'] ?>"
+                                    data-naam="<?= htmlspecialchars($row['naam'], ENT_QUOTES) ?>"
+                                    data-prijs="<?= (float)$row['prijs'] ?>"
+                                    data-voorraad="<?= (int)$row['voorraad'] ?>"
+                                >
+                                    🛒 Bestellen
+                                </button>
+
+                            <?php else: ?>
+
+                                <button
+                                    type="button"
+                                    disabled
+                                >
+                                    Niet op voorraad
+                                </button>
+
+                            <?php endif; ?>
+
+                        </td>
+
                     </tr>
 
                 <?php endwhile; ?>
@@ -76,6 +106,7 @@
 
             </select>
 
+
             <select name="gelooid">
 
                 <option value="">Gelooid</option>
@@ -96,6 +127,7 @@
 
             </select>
 
+
             <select name="soort">
 
                 <option value="">Alle soorten</option>
@@ -113,6 +145,7 @@
 
             </select>
 
+
             <button type="submit">
                 Filteren
             </button>
@@ -129,3 +162,4 @@
     </div>
 
 </div>
+

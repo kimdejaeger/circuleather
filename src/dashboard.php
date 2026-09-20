@@ -89,8 +89,8 @@ $result = $stmt->get_result();
         <div class="buttons">
 
             <button type="button" onclick="location.href='bestellen.php'">
-                Bestellen
-            </button>
+    🛒 Winkelwagen
+</button>
 
             <button type="button" onclick="location.href='product_toevoegen.php'">
                 Product toevoegen
@@ -109,7 +109,7 @@ $result = $stmt->get_result();
     <?php include 'producten.php'; ?>
 
 </form>
-
+<script src="js/winkelwagen.js"></script>
 </body>
 </html>
 
