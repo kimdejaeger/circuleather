@@ -88,7 +88,7 @@ $result = $stmt->get_result();
 
         <div class="buttons">
 
-            <button type="button" onclick="location.href='bestellen.php'">
+            <button type="button" onclick="location.href='winkelwagen.php'">
     🛒 Winkelwagen
 </button>
 

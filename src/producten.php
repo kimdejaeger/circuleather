@@ -52,6 +52,13 @@
                                 >
                                     🛒 Bestellen
                                 </button>
+                                <a
+        href="verwijderen.php?id=<?= (int)$row['id'] ?>"
+        class="verwijder-knop"
+        onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?');"
+    >
+        🗑 Verwijderen
+    </a>
 
                             <?php else: ?>
 

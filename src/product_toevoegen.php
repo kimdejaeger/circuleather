@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt->execute()) {
-        header("Location: overview.php");
+        header("Location: dashboard.php");
         exit;
     } else {
         $foutmelding = "Er ging iets mis bij het toevoegen van het product.";
