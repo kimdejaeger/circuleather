@@ -39,13 +39,15 @@ require_once 'session.php';
     >
         Verder winkelen
     </button>
-
     <button
-        type="button"
-        onclick="winkelwagenLeegmaken()"
+    type="button"
+    onclick="winkelwagenLeegmaken()"
     >
-        Winkelwagen leegmaken
-    </button>
+    Winkelwagen leegmaken
+</button>
+<button>
+    Bestellen
+</button>
 
 
     <script src="js/winkelwagen.js"></script>
