@@ -31,9 +31,9 @@
 
                         <td><?= htmlspecialchars($row['id']) ?></td>
                         <td><?= htmlspecialchars($row['naam']) ?></td>
-                        <td><?= htmlspecialchars($row['gewicht']) ?></td>
+                        <td><?= htmlspecialchars($row['gewicht']) ?>kg</td>
                         <td><?= htmlspecialchars($row['kleur']) ?></td>
-                        <td><?= htmlspecialchars($row['dikte']) ?></td>
+                        <td><?= htmlspecialchars($row['dikte']) ?>mm</td>
                         <td><?= htmlspecialchars($row['soort']) ?></td>
                         <td><?= htmlspecialchars($row['gelooid']) ?></td>
                         <td>€<?= htmlspecialchars($row['prijs']) ?></td>
@@ -42,7 +42,7 @@
 
                             <?php if ($row['voorraad'] > 0): ?>
 
-                                <button
+                                 <button
                                     type="button"
                                     class="bestel-knop"
                                     data-id="<?= (int)$row['id'] ?>"
@@ -53,12 +53,12 @@
                                     🛒 Bestellen
                                 </button>
                                 <a
-        href="verwijderen.php?id=<?= (int)$row['id'] ?>"
-        class="verwijder-knop"
-        onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?');"
-    >
-        🗑 Verwijderen
-    </a>
+                                    href="verwijderen.php?id=<?= (int)$row['id'] ?>"
+                                    class="verwijder-knop"
+                                    onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?');"
+                                >
+                                     🗑 Verwijderen
+                                 </a>
 
                             <?php else: ?>
 

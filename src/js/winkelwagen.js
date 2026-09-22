@@ -81,7 +81,7 @@ function winkelwagenTonen() {
 
     div.innerHTML = `
             <h3>${product.naam}</h3>
-
+         
             <p>
                 Prijs: €${product.prijs.toFixed(2)}
             </p>
