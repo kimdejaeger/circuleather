@@ -41,17 +41,22 @@
                         <td>
 
                             <?php if ($row['voorraad'] > 0): ?>
-
-                                 <button
+                                <button
                                     type="button"
                                     class="bestel-knop"
                                     data-id="<?= (int)$row['id'] ?>"
                                     data-naam="<?= htmlspecialchars($row['naam'], ENT_QUOTES) ?>"
+                                    data-gewicht="<?= (float)$row['gewicht'] ?>"
+                                    data-kleur="<?= htmlspecialchars($row['kleur'], ENT_QUOTES) ?>"
+                                    data-dikte="<?= (float)$row['dikte'] ?>"
+                                    data-soort="<?= htmlspecialchars($row['soort'], ENT_QUOTES) ?>"
+                                    data-gelooid="<?= htmlspecialchars($row['gelooid'], ENT_QUOTES) ?>"
                                     data-prijs="<?= (float)$row['prijs'] ?>"
                                     data-voorraad="<?= (int)$row['voorraad'] ?>"
-                                >
-                                    🛒 Bestellen
+                                    >
+                                        🛒 Bestellen
                                 </button>
+
                                 <a
                                     href="verwijderen.php?id=<?= (int)$row['id'] ?>"
                                     class="verwijder-knop"

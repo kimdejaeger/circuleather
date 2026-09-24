@@ -109,7 +109,7 @@ $result = $stmt->get_result();
     <?php include 'producten.php'; ?>
 
 </form>
-<script src="js/winkelwagen.js"></script>
+<script src="js/winkelwagen.js?v=2"></script>
 </body>
 </html>
 

@@ -50,7 +50,7 @@ require_once 'session.php';
 </button>
 
 
-    <script src="js/winkelwagen.js"></script>
+    <script src="js/winkelwagen.js?v=2"></script>
 
     <script>
 

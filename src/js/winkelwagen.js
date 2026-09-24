@@ -81,7 +81,18 @@ function winkelwagenTonen() {
 
     div.innerHTML = `
             <h3>${product.naam}</h3>
-         
+            <p>
+                Gewicht: ${product.gewicht}kg
+            </p>
+            
+            <p>
+                Kleur: ${product.kleur}
+            </p>
+
+            <p>
+            Dikte: ${product.dikte}mm
+            </p>
+            
             <p>
                 Prijs: €${product.prijs.toFixed(2)}
             </p>
@@ -141,6 +152,12 @@ document.addEventListener("DOMContentLoaded", function () {
         id: parseInt(this.dataset.id),
 
         naam: this.dataset.naam,
+
+        gewicht: parseFloat(this.dataset.gewicht),
+
+        kleur: this.dataset.kleur,
+
+        dikte: parseFloat(this.dataset.dikte),
 
         prijs: parseFloat(this.dataset.prijs),
 
