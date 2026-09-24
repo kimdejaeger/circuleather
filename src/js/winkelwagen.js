@@ -94,6 +94,14 @@ function winkelwagenTonen() {
             </p>
             
             <p>
+                Soort: ${product.soort}
+            </p>
+
+            <p>
+                Gelooid: ${product.gelooid}
+            </p>
+
+            <p>
                 Prijs: €${product.prijs.toFixed(2)}
             </p>
 
@@ -158,6 +166,10 @@ document.addEventListener("DOMContentLoaded", function () {
         kleur: this.dataset.kleur,
 
         dikte: parseFloat(this.dataset.dikte),
+
+        soort: this.dataset.soort,
+
+        gelooid: this.dataset.gelooid,
 
         prijs: parseFloat(this.dataset.prijs),
 
