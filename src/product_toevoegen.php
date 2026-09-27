@@ -74,16 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <label for="naam">Naam</label>
-    <input type="text" id="naam" name="naam" required>
+    <input type="text" id="naam" name="naam" placeholder="Naam" required>
 
     <label for="gewicht">Gewicht (kg)</label>
-    <input type="text" id="gewicht" name="gewicht" inputmode="decimal" required>
+    <input type="text" id="gewicht" name="gewicht" placeholder="0.00" inputmode="decimal" required>
 
     <label for="kleur">Kleur</label>
-    <input type="text" id="kleur" name="kleur" required>
+    <input type="text" id="kleur" name="kleur" placeholder="Kleur" required>
 
     <label for="dikte">Dikte (mm)</label>
-    <input type="text" id="dikte" name="dikte" inputmode="decimal" required>
+    <input type="text" id="dikte" name="dikte" placeholder="0.00" inputmode="decimal" required>
 
     <label for="soort">Soort</label>
     <select id="soort" name="soort" required>
@@ -105,10 +105,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </select>
 
     <label for="prijs">Prijs</label>
-    <input type="text" id="prijs" name="prijs" inputmode="decimal" required>
+    <input type="text" id="prijs" name="prijs" placeholder="0.00" inputmode="decimal" required>
 
     <label for="voorraad">Voorraad</label>
-    <input type="text" id="voorraad" name="voorraad" inputmode="numeric" pattern="[0-9]+" required>
+    <input type="text" id="voorraad" name="voorraad" placeholder="0" inputmode="numeric" pattern="[0-9]+" required>
 
     <button type="submit">Product toevoegen</button>
 
