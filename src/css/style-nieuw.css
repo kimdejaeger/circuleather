@@ -174,15 +174,12 @@ td:last-child {
   background-color: #8b3a32;
 }
 
-/* ========================= */
 /* PRODUCT TOEVOEGEN */
-/* ========================= */
-
 .product-form {
-  width: 90%;
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 35px;
+  width: 70%;
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 25px;
   background-color: #eee9df;
   border: 2px solid #222222;
   border-radius: 10px;
