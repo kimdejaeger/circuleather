@@ -110,12 +110,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <select name="rol" required>
             <option value="">Kies een rol</option>
-            <option value="user">User</option>
+            <option value="bedrijf">Bedrijf</option>
             <option value="admin">Admin</option>
         </select>
         <br><br>
 
-        <button type="submit">Voeg persoon toe</button>
+        <button type="submit">Registreer</button>
 
     </form>
 </div>

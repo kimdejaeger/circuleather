@@ -92,9 +92,11 @@ $result = $stmt->get_result();
     🛒 Winkelwagen
 </button>
 
-            <button type="button" onclick="location.href='product_toevoegen.php'">
-                Product toevoegen
-            </button>
+      <?php if ($_SESSION['rol'] === 'admin'): ?>
+    <button type="button" onclick="window.location.href='product_toevoegen.php'">
+        Product toevoegen
+    </button>
+<?php endif; ?>
 
             <button type="button" onclick="location.href='logout.php'">
                 Logout

@@ -1,5 +1,8 @@
 <?php
 require_once 'session.php';
+require_once 'rechten.php';
+
+alleenAdmin();
 require_once 'partials/dbconnection-kim.php';
 
 $soorten = [];
