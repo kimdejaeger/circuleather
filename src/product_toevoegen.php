@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <title>Product toevoegen</title>
 
-    <link rel="stylesheet" href="css/style-nieuw.css">
+    <link rel="stylesheet" href="css/style-nieuw.css?v=2">
 </head>
 
 <body>

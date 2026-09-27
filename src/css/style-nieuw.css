@@ -83,12 +83,13 @@ table {
   border-collapse: collapse;
   width: 100%;
   background-color: white;
+  font-size: 14px;
 }
 
 td,
 th {
   border: 1px solid #c9c0b3;
-  padding: 12px;
+  padding: 8px;
   text-align: left;
 }
 
@@ -103,6 +104,20 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: #e1d8ca;
+}
+
+/* Actieknoppen */
+td:last-child {
+  white-space: nowrap;
+}
+
+.bestel-knop,
+.verwijder-knop {
+  white-space: nowrap;
+  display: inline-block;
+  width: auto;
+  padding: 8px 10px;
+  font-size: 13px;
 }
 
 /* Sidebar */
@@ -158,6 +173,7 @@ tr:hover {
 .filters button:last-child:hover {
   background-color: #8b3a32;
 }
+
 /* ========================= */
 /* PRODUCT TOEVOEGEN */
 /* ========================= */

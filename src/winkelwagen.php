@@ -18,7 +18,7 @@ require_once 'session.php';
 
     <link
         rel="stylesheet"
-        href="css/style-nieuw.css"
+        href="css/style-nieuw.css?v=2"
     >
 
 </head>
