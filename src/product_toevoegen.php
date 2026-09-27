@@ -29,19 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-
-    $stmt->bind_param(
-        "sdssdssd",
-        $naam,
-        $gewicht,
-        $kleur,
-        $dikte,
-        $soort,
-        $gelooid,
-        $prijs,
-        $voorraad
-    );
-
+$stmt->bind_param(
+    "sdsdssdd",
+    $naam,
+    $gewicht,
+    $kleur,
+    $dikte,
+    $soort,
+    $gelooid,
+    $prijs,
+    $voorraad
+);
     if ($stmt->execute()) {
         header("Location: dashboard.php");
         exit;
