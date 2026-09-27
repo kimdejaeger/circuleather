@@ -1,6 +1,8 @@
 <?php
 require_once 'session.php';
 
+
+
 $search = $_GET['search'] ?? '';
 $kleur = $_GET['kleur'] ?? '';
 $gelooid = $_GET['gelooid'] ?? '';
@@ -68,6 +70,12 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+    
+    <?php if (isset($_GET['bestelling']) && $_GET['bestelling'] === 'gelukt'): ?>
+    <div class="melding">
+        Je bestelling is succesvol geplaatst!
+    </div>
+<?php endif; ?>
 
 <form method="GET">
 

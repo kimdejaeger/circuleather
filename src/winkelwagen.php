@@ -45,9 +45,10 @@ require_once 'session.php';
     >
     Winkelwagen leegmaken
 </button>
-<button>
-    Bestellen
-</button>
+<form id="bestelForm" action="bestellen.php" method="POST">
+    <input type="hidden" name="producten" id="productenInput">
+    <button type="submit">Bestellen</button>
+</form>
 
 
     <script src="js/winkelwagen.js?v=2"></script>

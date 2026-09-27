@@ -90,7 +90,7 @@ function winkelwagenTonen() {
             </p>
 
             <p>
-            Dikte: ${product.dikte}mm
+                Dikte: ${product.dikte}mm
             </p>
             
             <p>
@@ -181,4 +181,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   winkelwagenTonen();
+
+  // Winkelwagen naar PHP sturen bij bestellen
+  const bestelForm = document.getElementById("bestelForm");
+
+  if (bestelForm) {
+    bestelForm.addEventListener("submit", function () {
+      document.getElementById("productenInput").value = JSON.stringify(winkelwagen);
+    });
+  }
 });

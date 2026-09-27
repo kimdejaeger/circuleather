@@ -19,6 +19,7 @@ if ($result->num_rows === 1) {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $user['username'];
         $_SESSION['rol'] = $user['rol'];
+        $_SESSION['klant_id'] = $user['id'];
 
         header("Location: dashboard.php");
         exit();
