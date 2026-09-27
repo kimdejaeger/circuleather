@@ -73,13 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label for="naam">Naam</label>
     <input type="text" id="naam" name="naam" required>
 
-    <label for="gewicht">Gewicht</label>
+    <label for="gewicht">Gewicht (kg)</label>
     <input type="text" id="gewicht" name="gewicht" inputmode="decimal" required>
 
     <label for="kleur">Kleur</label>
     <input type="text" id="kleur" name="kleur" required>
 
-    <label for="dikte">Dikte</label>
+    <label for="dikte">Dikte (mm)</label>
     <input type="text" id="dikte" name="dikte" inputmode="decimal" required>
 
     <label for="soort">Soort</label>
