@@ -1,8 +1,6 @@
 <?php
 require_once 'session.php';
 
-
-
 $search = $_GET['search'] ?? '';
 $kleur = $_GET['kleur'] ?? '';
 $gelooid = $_GET['gelooid'] ?? '';
