@@ -69,10 +69,12 @@ $result = $stmt->get_result();
 
 <body>
     
-    <?php if (isset($_GET['bestelling']) && $_GET['bestelling'] === 'gelukt'): ?>
-    <div class="melding">
-        Je bestelling is succesvol geplaatst!
-    </div>
+   <?php if (isset($_GET['bestelling']) && $_GET['bestelling'] === 'gelukt'): ?>
+
+<script>
+    localStorage.removeItem('winkelwagen');
+</script>
+
 <?php endif; ?>
 
 <form method="GET">
