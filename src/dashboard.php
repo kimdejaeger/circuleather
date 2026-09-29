@@ -97,14 +97,17 @@ $result = $stmt->get_result();
         <div class="buttons">
 
             <button type="button" onclick="location.href='winkelwagen.php'">
-    🛒 Winkelwagen
-</button>
+                 🛒 Winkelwagen
+            </button>
 
-      <?php if ($_SESSION['rol'] === 'admin'): ?>
-    <button type="button" onclick="window.location.href='product_toevoegen.php'">
-        Product toevoegen
-    </button>
-<?php endif; ?>
+        <?php if ($_SESSION['rol'] === 'admin'): ?>
+            <button type="button" onclick="window.location.href='product_toevoegen.php'">
+             Product toevoegen
+             </button>
+        <?php endif; ?>
+    <button type="button" onclick="location.href='bestelling.php'">
+                Bestellingen
+            </button>
 
             <button type="button" onclick="location.href='logout.php'">
                 Logout
