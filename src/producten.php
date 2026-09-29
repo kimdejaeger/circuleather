@@ -58,14 +58,20 @@
                                 </button>
 
                                 <?php if ($_SESSION['rol'] === 'admin'): ?>
-    <button
-        type="button"
-        class="verwijder-knop"
-        onclick="if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) { window.location.href='verwijderen.php?id=<?= (int)$row['id'] ?>'; }"
-    >
-        🗑 Verwijderen
-    </button>
-<?php endif; ?>
+                                    <button
+                                         type="button"
+                                        class="bewerk-knop"
+                                        onclick="window.location.href='bewerken.php?id=<?= (int)$row['id'] ?>'">
+                                            Bewerken
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="verwijder-knop"
+                                        onclick="if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) { window.location.href='verwijderen.php?id=<?= (int)$row['id'] ?>'; }"
+                                        >
+                                             🗑 Verwijderen
+                                    </button>
+                                <?php endif; ?>
 
                             <?php else: ?>
 

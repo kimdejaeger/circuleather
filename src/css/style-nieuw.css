@@ -83,13 +83,13 @@ table {
   border-collapse: collapse;
   width: 100%;
   background-color: white;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 td,
 th {
   border: 1px solid #c9c0b3;
-  padding: 8px;
+  padding: 6px;
   text-align: left;
 }
 
@@ -112,12 +112,13 @@ td:last-child {
 }
 
 .bestel-knop,
-.verwijder-knop {
+.verwijder-knop,
+.bewerk-knop {
   white-space: nowrap;
   display: inline-block;
   width: auto;
-  padding: 8px 10px;
-  font-size: 13px;
+  padding: 7px 9px;
+  font-size: 12px;
 }
 
 /* Sidebar */
