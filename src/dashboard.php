@@ -106,7 +106,7 @@ $result = $stmt->get_result();
              </button>
         <?php endif; ?>
   <?php if ($_SESSION['rol'] === 'admin'): ?>
-            <button type="button" onclick="window.location.href='besetlling.php'">
+            <button type="button" onclick="window.location.href='bestelling.php'">
              ️ Bestellingen
              </button>
         <?php endif; ?>
