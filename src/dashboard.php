@@ -105,9 +105,11 @@ $result = $stmt->get_result();
              Product toevoegen
              </button>
         <?php endif; ?>
-    <button type="button" onclick="location.href='bestelling.php'">
-                Bestellingen
-            </button>
+  <?php if ($_SESSION['rol'] === 'admin'): ?>
+            <button type="button" onclick="window.location.href='besetlling.php'">
+             ️ Bestellingen
+             </button>
+        <?php endif; ?>
 
             <button type="button" onclick="location.href='logout.php'">
                 Logout
