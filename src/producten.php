@@ -28,7 +28,6 @@
                 <?php while ($row = $result->fetch_assoc()): ?>
 
                     <tr>
-
                         <td><?= htmlspecialchars($row['id']) ?></td>
                         <td><?= htmlspecialchars($row['naam']) ?></td>
                         <td><?= htmlspecialchars($row['gewicht']) ?>kg</td>
@@ -38,54 +37,60 @@
                         <td><?= htmlspecialchars($row['gelooid']) ?></td>
                         <td>€<?= htmlspecialchars($row['prijs']) ?></td>
                         <td><?= htmlspecialchars($row['voorraad']) ?></td>
+
                         <td>
 
-                            <?php if ($row['voorraad'] > 0): ?>
-                                <button
-                                    type="button"
-                                    class="bestel-knop"
-                                    data-id="<?= (int)$row['id'] ?>"
-                                    data-naam="<?= htmlspecialchars($row['naam']) ?>"
-                                    data-gewicht="<?= (float)$row['gewicht'] ?>"
-                                    data-kleur="<?= htmlspecialchars($row['kleur']) ?>"
-                                    data-dikte="<?= (float)$row['dikte'] ?>"
-                                    data-soort="<?= htmlspecialchars($row['soort']) ?>"
-                                    data-gelooid="<?= htmlspecialchars ($row['gelooid']) ?>"
-                                    data-prijs="<?= (float)$row['prijs'] ?>"
-                                    data-voorraad="<?= (int)$row['voorraad'] ?>"
-                                    >
-                                        🛒 Bestellen
-                                </button>
+                            <?php if ($_SESSION['rol'] === 'bedrijf'): ?>
 
-                                <?php if ($_SESSION['rol'] === 'admin'): ?>
-                                    <button
-                                         type="button"
-                                        class="bewerk-knop"
-                                        onclick="window.location.href='bewerken.php?id=<?= (int)$row['id'] ?>'">
-                                            Bewerken
-                                    </button>
+                                <?php if ($row['voorraad'] > 0): ?>
+
                                     <button
                                         type="button"
-                                        class="verwijder-knop"
-                                        onclick="if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) { window.location.href='verwijderen.php?id=<?= (int)$row['id'] ?>'; }"
-                                        >
-                                             🗑 Verwijderen
+                                        class="bestel-knop"
+                                        data-id="<?= (int)$row['id'] ?>"
+                                        data-naam="<?= htmlspecialchars($row['naam']) ?>"
+                                        data-gewicht="<?= (float)$row['gewicht'] ?>"
+                                        data-kleur="<?= htmlspecialchars($row['kleur']) ?>"
+                                        data-dikte="<?= (float)$row['dikte'] ?>"
+                                        data-soort="<?= htmlspecialchars($row['soort']) ?>"
+                                        data-gelooid="<?= htmlspecialchars($row['gelooid']) ?>"
+                                        data-prijs="<?= (float)$row['prijs'] ?>"
+                                        data-voorraad="<?= (int)$row['voorraad'] ?>"
+                                    >
+                                        🛒 Bestellen
                                     </button>
+
+                                <?php else: ?>
+
+                                    <button type="button" disabled>
+                                        Niet op voorraad
+                                    </button>
+
                                 <?php endif; ?>
 
-                            <?php else: ?>
+                            <?php endif; ?>
+
+                            <?php if ($_SESSION['rol'] === 'admin'): ?>
 
                                 <button
                                     type="button"
-                                    disabled
+                                    class="bewerk-knop"
+                                    onclick="window.location.href='bewerken.php?id=<?= (int)$row['id'] ?>'"
                                 >
-                                    Niet op voorraad
+                                    ✏️ Bewerken
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="verwijder-knop"
+                                    onclick="if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) { window.location.href='verwijderen.php?id=<?= (int)$row['id'] ?>'; }"
+                                >
+                                    🗑 Verwijderen
                                 </button>
 
                             <?php endif; ?>
 
                         </td>
-
                     </tr>
 
                 <?php endwhile; ?>
@@ -126,7 +131,6 @@
 
             </select>
 
-
             <select name="gelooid">
 
                 <option value="">Gelooid</option>
@@ -147,7 +151,6 @@
 
             </select>
 
-
             <select name="soort">
 
                 <option value="">Alle soorten</option>
@@ -165,7 +168,6 @@
 
             </select>
 
-
             <button type="submit">
                 Filteren
             </button>
@@ -182,4 +184,3 @@
     </div>
 
 </div>
-

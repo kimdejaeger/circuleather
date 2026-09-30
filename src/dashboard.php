@@ -93,13 +93,13 @@ $result = $stmt->get_result();
             <button type="submit">Zoeken</button>
 
         </div>
-
+<!-- /* Buttons for winkelwagen, product toevoegen, bestellingen, and logout */ -->
         <div class="buttons">
-
-            <button type="button" onclick="location.href='winkelwagen.php'">
-                 🛒 Winkelwagen
-            </button>
-
+<?php if ($_SESSION['rol'] === 'bedrijf'): ?>
+    <button type="button" onclick="location.href='winkelwagen.php'">
+        🛒 Winkelwagen
+    </button>
+<?php endif; ?>
         <?php if ($_SESSION['rol'] === 'admin'): ?>
             <button type="button" onclick="window.location.href='product_toevoegen.php'">
              Product toevoegen
