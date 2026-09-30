@@ -251,3 +251,17 @@ td:last-child {
 .terug:hover {
   background-color: #8b3a32;
 }
+.pagina-bovenkant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.pagina-bovenkant h1 {
+  margin: 0;
+}
+
+.pagina-bovenkant .terug {
+  margin: 0;
+}
