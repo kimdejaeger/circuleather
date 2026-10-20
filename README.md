@@ -34,21 +34,21 @@ docker compose up
 
 Hiermee worden de benodigde containers gestart en kun je de website lokaal gebruiken.
 
-- Hoe werkt de website. 
+- Hoe werkt de website.
 
 Je kunt jezelf registreren als bedrijf of als admin.
 
 - Een admin kan:
-   De voorraad bekijken
-   Producten bestellen
-   Producten toevoegen
-   Producten verwijderen
-   Producten bewerken
-   Bestellingen bekijken
+  De voorraad bekijken
+  Producten bestellen
+  Producten toevoegen
+  Producten verwijderen
+  Producten bewerken
+  Bestellingen bekijken
 
 - Een bedrijf kan:
-   De voorraad bekijken
-   Producten bestellen
-   De winkelwagen gebruiken
+  De voorraad bekijken
+  Producten bestellen
+  De winkelwagen gebruiken
 
 De rechten zijn dus verschillend per gebruiker. Een admin heeft meer mogelijkheden dan een bedrijf.
