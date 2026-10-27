@@ -1,4 +1,3 @@
-
 <div class="dashboard">
 
     <div class="voorraad">
@@ -18,6 +17,7 @@
                 <th>Actie</th>
             </tr>
 
+            <!-- Controleert of er producten zijn gevonden -->
             <?php if ($result->num_rows === 0): ?>
 
                 <tr>
@@ -26,6 +26,7 @@
 
             <?php else: ?>
 
+                <!-- Haalt elk product afzonderlijk op en toont het in de tabel -->
                 <?php while ($row = $result->fetch_assoc()): ?>
 
                     <tr>
@@ -41,6 +42,7 @@
 
                         <td>
 
+                            <!-- Bedrijven kunnen producten bestellen -->
                             <?php if ($_SESSION['rol'] === 'bedrijf'): ?>
 
                                 <?php if ($row['voorraad'] > 0): ?>
@@ -49,12 +51,12 @@
                                         type="button"
                                         class="bestel-knop"
                                         data-id="<?= (int)$row['id'] ?>"
-                                        data-naam="<?= htmlspecialchars($row['naam'], ENT_QUOTES, 'UTF-8') ?>"
+                                        data-naam="<?= htmlspecialchars($row['naam']) ?>"
                                         data-gewicht="<?= (float)$row['gewicht'] ?>"
-                                        data-kleur="<?= htmlspecialchars($row['kleur'], ENT_QUOTES, 'UTF-8') ?>"
+                                        data-kleur="<?= htmlspecialchars($row['kleur']) ?>"
                                         data-dikte="<?= (float)$row['dikte'] ?>"
-                                        data-soort="<?= htmlspecialchars($row['soort'], ENT_QUOTES, 'UTF-8') ?>"
-                                        data-gelooid="<?= htmlspecialchars($row['gelooid'], ENT_QUOTES, 'UTF-8') ?>"
+                                        data-soort="<?= htmlspecialchars($row['soort']) ?>"
+                                        data-gelooid="<?= htmlspecialchars($row['gelooid']) ?>"
                                         data-prijs="<?= (float)$row['prijs'] ?>"
                                         data-voorraad="<?= (int)$row['voorraad'] ?>"
                                     >
@@ -63,6 +65,7 @@
 
                                 <?php else: ?>
 
+                                    <!-- De bestelknop is uitgeschakeld als de voorraad op is -->
                                     <button type="button" disabled>
                                         Niet op voorraad
                                     </button>
@@ -71,6 +74,7 @@
 
                             <?php endif; ?>
 
+                            <!-- Alleen admins kunnen producten bewerken en verwijderen -->
                             <?php if ($_SESSION['rol'] === 'admin'): ?>
 
                                 <button
@@ -100,41 +104,36 @@
 
         </table>
 
-        <div class="paginering">
+        <!-- Paginering onder de productentabel -->
+        <?php if ($totaalPaginas > 1): ?>
+            <div class="paginering">
 
-            <?php if ($pagina > 1): ?>
-                <button
-                    type="submit"
-                    name="pagina"
-                    value="<?= $pagina - 1 ?>"
-                    formmethod="GET"
-                >
-                    Vorige
-                </button>
-            <?php endif; ?>
+                <!-- Gaat naar de vorige pagina en behoudt de filters -->
+                <?php if ($pagina > 1): ?>
+                    <a href="?<?= htmlspecialchars(http_build_query(array_merge($_GET, ['pagina' => $pagina - 1]))) ?>">
+                        Vorige
+                    </a>
+                <?php endif; ?>
 
-            <span>
-                Pagina <?= $pagina ?> van <?= $totaalPaginas ?>
-                (<?= $totaalProducten ?> producten)
-            </span>
+                <span>
+                    Pagina <?= $pagina ?> van <?= $totaalPaginas ?>
+                </span>
 
-            <?php if ($pagina < $totaalPaginas): ?>
-                <button
-                    type="submit"
-                    name="pagina"
-                    value="<?= $pagina + 1 ?>"
-                    formmethod="GET"
-                >
-                    Volgende
-                </button>
-            <?php endif; ?>
+                <!-- Gaat naar de volgende pagina en behoudt de filters -->
+                <?php if ($pagina < $totaalPaginas): ?>
+                    <a href="?<?= htmlspecialchars(http_build_query(array_merge($_GET, ['pagina' => $pagina + 1]))) ?>">
+                        Volgende
+                    </a>
+                <?php endif; ?>
 
-        </div>
+            </div>
+        <?php endif; ?>
 
     </div>
 
     <div class="sidebar">
 
+        <!-- Legenda die aangeeft of een product op voorraad is -->
         <div class="voorraad-box">
 
             <h2>Voorraad</h2>
@@ -144,27 +143,24 @@
 
         </div>
 
+        <!-- Filteropties om specifieke producten te vinden -->
         <div class="filters">
 
             <select name="kleur">
-
                 <option value="">Alle kleuren</option>
 
+                <!-- Haalt de beschikbare kleuren uit de database -->
                 <?php while ($row = $result_kleuren->fetch_assoc()): ?>
-
                     <option
                         value="<?= htmlspecialchars($row['kleur']) ?>"
                         <?= $kleur === $row['kleur'] ? 'selected' : '' ?>
                     >
                         <?= htmlspecialchars($row['kleur']) ?>
                     </option>
-
                 <?php endwhile; ?>
-
             </select>
 
             <select name="gelooid">
-
                 <option value="">Gelooid</option>
 
                 <option
@@ -180,30 +176,26 @@
                 >
                     Chemisch
                 </option>
-
             </select>
 
             <select name="soort">
-
                 <option value="">Alle soorten</option>
 
+                <!-- Haalt de beschikbare soorten uit de database -->
                 <?php while ($row = $result_soorten->fetch_assoc()): ?>
-
                     <option
                         value="<?= htmlspecialchars($row['soort']) ?>"
                         <?= $soort === $row['soort'] ? 'selected' : '' ?>
                     >
                         <?= htmlspecialchars($row['soort']) ?>
                     </option>
-
                 <?php endwhile; ?>
-
             </select>
 
-            <button type="submit" name="pagina" value="1">
-                Filteren
-            </button>
+            <!-- Verstuurt de gekozen filters via het formulier -->
+            <button type="submit">Filteren</button>
 
+            <!-- Verwijdert alle filters door terug te gaan naar het dashboard -->
             <button
                 type="button"
                 onclick="location.href='dashboard.php'"

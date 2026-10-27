@@ -1,10 +1,13 @@
 <?php
+// Controleert of de gebruiker is ingelogd en adminrechten heeft
 require_once 'session.php';
 require_once 'rechten.php';
 
 alleenAdmin();
+
 require_once 'partials/dbconnection-kim.php';
 
+// Haalt alle verschillende soorten uit de database op voor de keuzelijst
 $soorten = [];
 
 $result = $conn->query("SELECT DISTINCT soort FROM product ORDER BY soort");
@@ -13,8 +16,10 @@ while ($row = $result->fetch_assoc()) {
     $soorten[] = $row['soort'];
 }
 
+// Controleert of het formulier is verstuurd
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Haalt de ingevulde gegevens uit het formulier op
     $naam = $_POST['naam'];
     $gewicht = $_POST['gewicht'];
     $kleur = $_POST['kleur'];
@@ -24,22 +29,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prijs = $_POST['prijs'];
     $voorraad = $_POST['voorraad'];
 
-    $sql = "INSERT INTO product 
+    // Voegt het nieuwe product toe aan de database
+    // De vraagtekens worden vervangen door de ingevulde waarden
+    $sql = "INSERT INTO product
             (naam, gewicht, kleur, dikte, soort, gelooid, prijs, voorraad)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-$stmt->bind_param(
-    "sdsdssdd",
-    $naam,
-    $gewicht,
-    $kleur,
-    $dikte,
-    $soort,
-    $gelooid,
-    $prijs,
-    $voorraad
-);
+
+    // Koppelt de waarden aan de query
+    // s = tekst, d = getal met decimalen, i = geheel getal
+    $stmt->bind_param(
+        "sdsdssdi",
+        $naam,
+        $gewicht,
+        $kleur,
+        $dikte,
+        $soort,
+        $gelooid,
+        $prijs,
+        $voorraad
+    );
+
+    // Slaat het product op en stuurt bij succes terug naar het dashboard
     if ($stmt->execute()) {
         header("Location: dashboard.php");
         exit;
@@ -55,18 +67,18 @@ $stmt->bind_param(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Product toevoegen</title>
-
     <link rel="stylesheet" href="css/style-nieuw.css?v=2">
 </head>
 
 <body>
 
+<!-- Formulier met alle gegevens die nodig zijn om een product toe te voegen -->
 <form method="POST" class="product-form">
 
     <h1>Nieuw product toevoegen</h1>
 
+    <!-- Toont een foutmelding als het toevoegen mislukt -->
     <?php if (isset($foutmelding)): ?>
         <p><?= htmlspecialchars($foutmelding) ?></p>
     <?php endif; ?>
@@ -87,6 +99,7 @@ $stmt->bind_param(
     <select id="soort" name="soort" required>
         <option value="">Kies een soort</option>
 
+        <!-- Maakt voor elke soort uit de database een optie aan -->
         <?php foreach ($soorten as $soort): ?>
             <option value="<?= htmlspecialchars($soort) ?>">
                 <?= htmlspecialchars($soort) ?>
@@ -112,6 +125,7 @@ $stmt->bind_param(
 
 </form>
 
+<!-- Link om terug te gaan naar het dashboard -->
 <a href="dashboard.php" class="terug">Terug naar overzicht</a>
 
 </body>
