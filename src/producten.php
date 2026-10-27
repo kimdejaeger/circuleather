@@ -1,3 +1,4 @@
+
 <div class="dashboard">
 
     <div class="voorraad">
@@ -48,12 +49,12 @@
                                         type="button"
                                         class="bestel-knop"
                                         data-id="<?= (int)$row['id'] ?>"
-                                        data-naam="<?= htmlspecialchars($row['naam']) ?>"
+                                        data-naam="<?= htmlspecialchars($row['naam'], ENT_QUOTES, 'UTF-8') ?>"
                                         data-gewicht="<?= (float)$row['gewicht'] ?>"
-                                        data-kleur="<?= htmlspecialchars($row['kleur']) ?>"
+                                        data-kleur="<?= htmlspecialchars($row['kleur'], ENT_QUOTES, 'UTF-8') ?>"
                                         data-dikte="<?= (float)$row['dikte'] ?>"
-                                        data-soort="<?= htmlspecialchars($row['soort']) ?>"
-                                        data-gelooid="<?= htmlspecialchars($row['gelooid']) ?>"
+                                        data-soort="<?= htmlspecialchars($row['soort'], ENT_QUOTES, 'UTF-8') ?>"
+                                        data-gelooid="<?= htmlspecialchars($row['gelooid'], ENT_QUOTES, 'UTF-8') ?>"
                                         data-prijs="<?= (float)$row['prijs'] ?>"
                                         data-voorraad="<?= (int)$row['voorraad'] ?>"
                                     >
@@ -98,6 +99,37 @@
             <?php endif; ?>
 
         </table>
+
+        <div class="paginering">
+
+            <?php if ($pagina > 1): ?>
+                <button
+                    type="submit"
+                    name="pagina"
+                    value="<?= $pagina - 1 ?>"
+                    formmethod="GET"
+                >
+                    Vorige
+                </button>
+            <?php endif; ?>
+
+            <span>
+                Pagina <?= $pagina ?> van <?= $totaalPaginas ?>
+                (<?= $totaalProducten ?> producten)
+            </span>
+
+            <?php if ($pagina < $totaalPaginas): ?>
+                <button
+                    type="submit"
+                    name="pagina"
+                    value="<?= $pagina + 1 ?>"
+                    formmethod="GET"
+                >
+                    Volgende
+                </button>
+            <?php endif; ?>
+
+        </div>
 
     </div>
 
@@ -168,7 +200,7 @@
 
             </select>
 
-            <button type="submit">
+            <button type="submit" name="pagina" value="1">
                 Filteren
             </button>
 

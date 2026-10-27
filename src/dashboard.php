@@ -6,6 +6,9 @@ $kleur = $_GET['kleur'] ?? '';
 $gelooid = $_GET['gelooid'] ?? '';
 $soort = $_GET['soort'] ?? '';
 
+$perPagina = 25;
+$pagina = max(1, (int)($_GET['pagina'] ?? 1));
+
 $conn = require_once "partials/dbconnection-kim.php";
 
 // Kleuren ophalen
@@ -18,34 +21,55 @@ $result_soorten = $conn->query(
     "SELECT DISTINCT soort FROM product ORDER BY soort"
 );
 
-// Producten ophalen
-$sql = "SELECT * FROM product WHERE 1=1";
+// Filters instellen
+$where = " WHERE 1=1";
 $params = [];
 $types = "";
 
 if ($search !== '') {
-    $sql .= " AND naam LIKE ?";
+    $where .= " AND naam LIKE ?";
     $params[] = "%$search%";
     $types .= "s";
 }
 
 if ($kleur !== '') {
-    $sql .= " AND kleur = ?";
+    $where .= " AND kleur = ?";
     $params[] = $kleur;
     $types .= "s";
 }
 
 if ($gelooid !== '') {
-    $sql .= " AND gelooid = ?";
+    $where .= " AND gelooid = ?";
     $params[] = $gelooid;
     $types .= "s";
 }
 
 if ($soort !== '') {
-    $sql .= " AND soort = ?";
+    $where .= " AND soort = ?";
     $params[] = $soort;
     $types .= "s";
 }
+
+// Totaal aantal producten tellen
+$sqlTotaal = "SELECT COUNT(*) AS totaal FROM product" . $where;
+$stmtTotaal = $conn->prepare($sqlTotaal);
+
+if ($params) {
+    $stmtTotaal->bind_param($types, ...$params);
+}
+
+$stmtTotaal->execute();
+$totaalProducten = (int)$stmtTotaal->get_result()->fetch_assoc()['totaal'];
+$stmtTotaal->close();
+
+// Pagina's berekenen
+$totaalPaginas = max(1, (int)ceil($totaalProducten / $perPagina));
+$pagina = min($pagina, $totaalPaginas);
+$start = ($pagina - 1) * $perPagina;
+
+// Producten ophalen
+$sql = "SELECT * FROM product" . $where .
+       " ORDER BY id DESC LIMIT $perPagina OFFSET $start";
 
 $stmt = $conn->prepare($sql);
 
@@ -68,63 +92,72 @@ $result = $stmt->get_result();
 </head>
 
 <body>
-    
-   <?php if (isset($_GET['bestelling']) && $_GET['bestelling'] === 'gelukt'): ?>
 
-<script>
-    localStorage.removeItem('winkelwagen');
-</script>
+    <?php if (isset($_GET['bestelling']) && $_GET['bestelling'] === 'gelukt'): ?>
+        <script>
+            localStorage.removeItem('winkelwagen');
+        </script>
+    <?php endif; ?>
 
-<?php endif; ?>
+    <?php if (isset($_GET['melding'])): ?>
+        <?php if ($_GET['melding'] === 'in_gebruik'): ?>
+            <p class="melding">Dit product staat in een bestelling en kan niet worden verwijderd.</p>
+        <?php elseif ($_GET['melding'] === 'verwijderd'): ?>
+            <p class="melding">Product succesvol verwijderd.</p>
+        <?php endif; ?>
+    <?php endif; ?>
 
-<form method="GET">
+    <form method="GET">
 
-    <div class="top-bar">
+        <div class="top-bar">
 
-        <div class="search">
+            <div class="search">
 
-            <input
-                type="text"
-                name="search"
-                placeholder="Zoek product..."
-                value="<?= htmlspecialchars($search) ?>"
-            >
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Zoek product..."
+                    value="<?= htmlspecialchars($search) ?>"
+                >
 
-            <button type="submit">Zoeken</button>
+                <button type="submit">Zoeken</button>
+
+            </div>
+
+            <div class="buttons">
+
+                <?php if ($_SESSION['rol'] === 'bedrijf'): ?>
+                    <button type="button" onclick="location.href='winkelwagen.php'">
+                        🛒 Winkelwagen
+                    </button>
+                <?php endif; ?>
+
+                <?php if ($_SESSION['rol'] === 'admin'): ?>
+                    <button type="button" onclick="window.location.href='product_toevoegen.php'">
+                        Product toevoegen
+                    </button>
+
+                    <button type="button" onclick="window.location.href='bestelling.php'">
+                        Bestellingen
+                    </button>
+                <?php endif; ?>
+
+                <button type="button" onclick="location.href='logout.php'">
+                    Logout
+                </button>
+
+            </div>
 
         </div>
-<!-- /* Buttons for winkelwagen, product toevoegen, bestellingen, and logout */ -->
-        <div class="buttons">
-<?php if ($_SESSION['rol'] === 'bedrijf'): ?>
-    <button type="button" onclick="location.href='winkelwagen.php'">
-        🛒 Winkelwagen
-    </button>
-<?php endif; ?>
-        <?php if ($_SESSION['rol'] === 'admin'): ?>
-            <button type="button" onclick="window.location.href='product_toevoegen.php'">
-             Product toevoegen
-             </button>
-        <?php endif; ?>
-  <?php if ($_SESSION['rol'] === 'admin'): ?>
-            <button type="button" onclick="window.location.href='bestelling.php'">
-             ️ Bestellingen
-             </button>
-        <?php endif; ?>
 
-            <button type="button" onclick="location.href='logout.php'">
-                Logout
-            </button>
+        <br>
 
-        </div>
+        <?php include 'producten.php'; ?>
 
-    </div>
+    </form>
 
-    <br>
+    <script src="js/winkelwagen.js?v=2"></script>
 
-    <?php include 'producten.php'; ?>
-
-</form>
-<script src="js/winkelwagen.js?v=2"></script>
 </body>
 </html>
 
